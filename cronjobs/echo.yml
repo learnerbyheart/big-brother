@@ -1,0 +1,26 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: echo 
+spec:
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 20  
+  jobTemplate:
+    metadata:
+      labels:
+        cronjob: echo 
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          labels:
+            cronjob: echo 
+        spec:
+          containers:
+          - name: echo 
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello1 from the Kubernetes cluster
+          restartPolicy: Never 

@@ -1,0 +1,26 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: random 
+spec:
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 20  
+  jobTemplate:
+    metadata:
+      labels:
+        cronjob: random 
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          labels:
+            cronjob: random 
+        spec:
+          containers:
+          - name: random 
+            image: bash:4.4
+            args:
+            - bash
+            - -c
+            - if (( RANDOM % 2 )); then echo "Hallo"; else cat papa.txt; fi
+          restartPolicy: Never 
